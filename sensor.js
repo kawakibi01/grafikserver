@@ -29,6 +29,8 @@ const kandangSapiSchema = new mongoose.Schema({
   suhu: Number,
   kelembaban: Number,
   NH3: Number,
+}, {
+  timestamps: true
 });
 
 // Membuat model SensorTest berdasarkan schema yang telah didefinisikan
@@ -91,6 +93,8 @@ app.post("/kirimSekitarKandangSapi", async (req, res) => {
   // Membuat objek baru dari model SensorNH3
   const sekitarKandangSapi = new SekitarKandangSapi({
     NH3: NH3,
+  }, {
+    timestamps: true
   });
 
   try {
