@@ -25,14 +25,14 @@ connection.on("connected", () => {
 });
 
 // Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
-const sensortestSchema = new mongoose.Schema({
+const kandangSapiSchema = new mongoose.Schema({
   suhu: Number,
   kelembaban: Number,
   NH3: Number,
 });
 
 // Membuat model SensorTest berdasarkan schema yang telah didefinisikan
-const SensorTest = mongoose.model("SensorTest", sensortestSchema);
+const KandangSapi = mongoose.model("KandangSapi", kandangSapiSchema);
 
 // Middleware untuk menghandle data yang masuk dalam format URL-encoded dan JSON
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -42,11 +42,11 @@ app.use(bodyParser.json());
 app.use(cors());
 
 // Endpoint untuk menyimpan data sensor ke database
-app.post("/kirimdatatest", async (req, res) => {
+app.post("/kirimKandangSapi", async (req, res) => {
   const { suhu, kelembaban, NH3 } = req.body;
 
   // Membuat objek baru dari model SensorTest
-  const newSensorTest = new SensorTest({
+  const newKandangSapi = new KandangSapi({
     suhu: suhu,
     kelembaban: kelembaban,
     NH3: NH3,
@@ -54,66 +54,66 @@ app.post("/kirimdatatest", async (req, res) => {
 
   try {
     // Menyimpan data sensor ke MongoDB
-    const result = await newSensorTest.save();
-    console.log("Berhasil menyimpan data sensor test:", result);
-    res.status(200).json({ message: "Berhasil menyimpan data sensor test" });
+    const result = await newKandangSapi.save();
+    console.log("Berhasil menyimpan data Kandang Sapi test:", result);
+    res.status(200).json({ message: "Berhasil menyimpan data Kandang Sapi" });
   } catch (err) {
-    console.log("Gagal menyimpan data sensor:", err);
-    res.status(500).json({ message: "Gagal menyimpan data sensor" });
+    console.log("Gagal menyimpan data Kandang Sapi:", err);
+    res.status(500).json({ message: "Gagal menyimpan data Kandang Sapi" });
   }
 });
 
 // Endpoint untuk mengambil data sensor dari database
-app.get("/ambildatatest", async (req, res) => {
+app.get("/ambilDataKandangSapi", async (req, res) => {
   try {
     // Mengambil semua data sensor dari MongoDB
     const data = await SensorTest.find({});
-    console.log("Berhasil mengambil data sensor");
+    console.log("Berhasil mengambil data Kandang Sapi");
     res.status(200).json(data);
   } catch (err) {
-    console.log("Gagal mengambil data sensor:", err);
-    res.status(500).json({ message: "Gagal mengambil data sensor" });
+    console.log("Gagal mengambil data Kandang Sapi:", err);
+    res.status(500).json({ message: "Gagal mengambil data Kandang Sapi" });
   }
 });
 
 // Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
-const sensorNH3Schema = new mongoose.Schema({
+const sekitarKandangSapi = new mongoose.Schema({
   NH3: Number,
 });
 
 // Membuat model SensorNH3 berdasarkan schema yang telah didefinisikan
-const SensorNH3 = mongoose.model("SensorNH3", sensorNH3Schema);
+const SekitarKandangSapi = mongoose.model("SekitarKandangSapi", sekitarKandangSapi);
 
 // Endpoint untuk menyimpan data sensor NH3 ke database
-app.post("/kirimNH3", async (req, res) => {
+app.post("/kirimSekitarKandangSapi", async (req, res) => {
   const { NH3 } = req.body;
 
   // Membuat objek baru dari model SensorNH3
-  const newSensorNH3 = new SensorNH3({
+  const sekitarKandangSapi = new SekitarKandangSapi({
     NH3: NH3,
   });
 
   try {
     // Menyimpan data sensor NH3 ke MongoDB
-    const result = await newSensorNH3.save();
-    console.log("Berhasil menyimpan data sensor test:", result);
-    res.status(200).json({ message: "Berhasil menyimpan data sensor nh3" });
+    const result = await sekitarKandangSapi.save();
+    console.log("Berhasil menyimpan data sekitar kandang sapi:", result);
+    res.status(200).json({ message: "Berhasil menyimpan data sekitar kandang sapi" });
   } catch (err) { 
-    console.log("Gagal menyimpan data sensor:", err);
-    res.status(500).json({ message: "Gagal menyimpan data sensor nh3" });
+    console.log("Gagal menyimpan data sekitar kandang sapi:", err);
+    res.status(500).json({ message: "Gagal menyimpan data sekitar kandang sapi" });
   }
 });
 
 // Endpoint untuk mengambil data sensor dari database
-app.get("/ambildatanh3", async (req, res) => {
+app.get("/ambilDataSekitarKandangSapi", async (req, res) => {
   try {
     // Mengambil semua data sensor dari MongoDB
-    const data = await SensorNH3.find({});
-    console.log("Berhasil mengambil data sensor");
+    const data = await SekitarKandangSapi.find({});
+    console.log("Berhasil mengambil data sekitar kandang sapi");
     res.status(200).json(data);
   } catch (err) {
-    console.log("Gagal mengambil data sensor:", err);
-    res.status(500).json({ message: "Gagal mengambil data sensor" });
+    console.log("Gagal mengambil data sekitar kandang sapi:", err);
+    res.status(500).json({ message: "Gagal mengambil data sekitar kandang sapi" });
   }
 });
 
