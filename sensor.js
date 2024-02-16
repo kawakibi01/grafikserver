@@ -25,13 +25,16 @@ connection.on("connected", () => {
 });
 
 // Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
-const kandangSapiSchema = new mongoose.Schema({
-  suhu: Number,
-  kelembaban: Number,
-  NH3: Number,
-}, {
-  timestamps: true
-});
+const kandangSapiSchema = new mongoose.Schema(
+  {
+    suhu: Number,
+    kelembaban: Number,
+    NH3: Number,
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // Membuat model SensorTest berdasarkan schema yang telah didefinisikan
 const KandangSapi = mongoose.model("KandangSapi", kandangSapiSchema);
@@ -81,6 +84,9 @@ app.get("/ambilDataKandangSapi", async (req, res) => {
 // Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
 const sekitarKandangSapi = new mongoose.Schema({
   NH3: Number,
+},
+{
+  timestamps: true,
 });
 
 // Membuat model SensorNH3 berdasarkan schema yang telah didefinisikan
@@ -93,8 +99,6 @@ app.post("/kirimSekitarKandangSapi", async (req, res) => {
   // Membuat objek baru dari model SensorNH3
   const sekitarKandangSapi = new SekitarKandangSapi({
     NH3: NH3,
-  }, {
-    timestamps: true
   });
 
   try {
