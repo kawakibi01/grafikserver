@@ -63,11 +63,11 @@ app.post("/kirimKandangSapi", async (req, res) => {
   }
 });
 
-// Endpoint untuk mengambil data sensor dari database
+// Endpoint untuk mengambil data sensor kandang sapi dari database
 app.get("/ambilDataKandangSapi", async (req, res) => {
   try {
     // Mengambil semua data sensor dari MongoDB
-    const data = await SensorTest.find({});
+    const data = await KandangSapi.find({});
     console.log("Berhasil mengambil data Kandang Sapi");
     res.status(200).json(data);
   } catch (err) {
@@ -104,7 +104,7 @@ app.post("/kirimSekitarKandangSapi", async (req, res) => {
   }
 });
 
-// Endpoint untuk mengambil data sensor dari database
+// Endpoint untuk mengambil data sensor sekitar kandang sapi dari database
 app.get("/ambilDataSekitarKandangSapi", async (req, res) => {
   try {
     // Mengambil semua data sensor dari MongoDB
