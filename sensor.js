@@ -24,7 +24,7 @@ connection.on("connected", () => {
   console.log("Mongo DB Connection Success");
 });
 
-// Mendefinisikan schema untuk data sensor menggunakan Mongoose
+// Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
 const sensortestSchema = new mongoose.Schema({
   suhu: Number,
   kelembaban: Number,
@@ -75,6 +75,48 @@ app.get("/ambildatatest", async (req, res) => {
     res.status(500).json({ message: "Gagal mengambil data sensor" });
   }
 });
+
+// Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
+const sensorNH3Schema = new mongoose.Schema({
+  NH3: Number,
+});
+
+// Membuat model SensorNH3 berdasarkan schema yang telah didefinisikan
+const SensorNH3 = mongoose.model("SensorNH3", sensorNH3Schema);
+
+// Endpoint untuk menyimpan data sensor NH3 ke database
+app.post("/kirimNH3", async (req, res) => {
+  const { NH3 } = req.body;
+
+  // Membuat objek baru dari model SensorNH3
+  const newSensorNH3 = new SensorNH3({
+    NH3: NH3,
+  });
+
+  try {
+    // Menyimpan data sensor NH3 ke MongoDB
+    const result = await newSensorNH3.save();
+    console.log("Berhasil menyimpan data sensor test:", result);
+    res.status(200).json({ message: "Berhasil menyimpan data sensor nh3" });
+  } catch (err) { 
+    console.log("Gagal menyimpan data sensor:", err);
+    res.status(500).json({ message: "Gagal menyimpan data sensor nh3" });
+  }
+});
+
+// Endpoint untuk mengambil data sensor dari database
+app.get("/ambildatanh3", async (req, res) => {
+  try {
+    // Mengambil semua data sensor dari MongoDB
+    const data = await SensorNH3.find({});
+    console.log("Berhasil mengambil data sensor");
+    res.status(200).json(data);
+  } catch (err) {
+    console.log("Gagal mengambil data sensor:", err);
+    res.status(500).json({ message: "Gagal mengambil data sensor" });
+  }
+});
+
 
 // Default endpoint untuk menunjukkan bahwa server berjalan dengan baik
 app.get("/", async (req, res, next) => {
