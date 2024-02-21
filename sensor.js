@@ -144,7 +144,7 @@ app.get("/ambilDataDenganTanggal", async (req, res) => {
       query = { createdAt: { $lte: new Date(endDate) } };
     }
 
-    const data = await KandangSapi.find(query);
+    const data = await SekitarKandangSapi.find(query);
     console.log("Berhasil mengambil data sensor berdasarkan tanggal");
     res.status(200).json(data);
   } catch (err) {
@@ -153,6 +153,33 @@ app.get("/ambilDataDenganTanggal", async (req, res) => {
   }
 });
 
+app.get("/ambilDataDenganTanggalSekitarKandang", async (req, res) => {
+  const { startDate, endDate } = req.query;
+
+  try {
+    let query = {};
+
+    if (startDate && endDate) {
+      query = {
+        createdAt: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        },
+      };
+    } else if (startDate) {
+      query = { createdAt: { $gte: new Date(startDate) } };
+    } else if (endDate) {
+      query = { createdAt: { $lte: new Date(endDate) } };
+    }
+
+    const data = await KandangSapi.find(query);
+    console.log("Berhasil mengambil data sensor berdasarkan tanggal");
+    res.status(200).json(data);
+  } catch (err) {
+    console.log("Gagal mengambil data sensor:", err);
+    res.status(500).json({ message: "Gagal mengambil data sensor" });
+  }
+});
 
 // Default endpoint untuk menunjukkan bahwa server berjalan dengan baik
 app.get("/", async (req, res, next) => {
