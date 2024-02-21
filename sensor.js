@@ -32,7 +32,7 @@ const kandangSapiSchema = new mongoose.Schema(
     NH3: Number,
   },
   {
-    timestamps: { currentTime: () => Date.now() + 25200000 },
+    timestamps: true,
   }
 );
 
@@ -86,7 +86,7 @@ const sekitarKandangSapi = new mongoose.Schema({
   NH3: Number,
 },
 {
-  timestamps: { currentTime: () => Date.now() + 25200000 },
+  timestamps: true,
 });
 
 // Membuat model SensorNH3 berdasarkan schema yang telah didefinisikan
