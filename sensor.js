@@ -50,7 +50,7 @@ app.use(cors());
 app.post("/kirimKandangSapi", async (req, res) => {
   const { suhu, kelembaban, NH3 } = req.body;
 
-  // Membuat objek baru dari model SensorTest
+  // Membuat objek baru dari model KandangSapi
   const newKandangSapi = new KandangSapi({
     suhu: suhu,
     kelembaban: kelembaban,
@@ -125,7 +125,7 @@ app.get("/ambilDataSekitarKandangSapi", async (req, res) => {
   }
 });
 
-app.get("/ambilDataDenganTanggal", async (req, res) => {
+app.get("/ambilDataDenganTanggalSekitarKandangSapi", async (req, res) => {
   const { startDate, endDate } = req.query;
 
   try {
@@ -153,7 +153,7 @@ app.get("/ambilDataDenganTanggal", async (req, res) => {
   }
 });
 
-app.get("/ambilDataDenganTanggalSekitarKandang", async (req, res) => {
+app.get("/ambilDataDenganTanggalKandangSapi", async (req, res) => {
   const { startDate, endDate } = req.query;
 
   try {
