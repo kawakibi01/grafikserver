@@ -8,7 +8,8 @@ const cors = require("cors");
 const app = express();
 
 // Konfigurasi koneksi ke MongoDB
-var mongoURL = "mongodb+srv://kawakibi2802:kawakibi2802@cluster0.rbua9m8.mongodb.net/kawakibidb";
+var mongoURL =
+  "mongodb+srv://kawakibi2802:kawakibi2802@cluster0.rbua9m8.mongodb.net/kawakibidb";
 mongoose.connect(mongoURL);
 
 // Mendapatkan objek koneksi aktif ke MongoDB
@@ -82,15 +83,20 @@ app.get("/ambilDataKandangSapi", async (req, res) => {
 });
 
 // Mendefinisikan schema/tabel untuk data sensor menggunakan Mongoose
-const sekitarKandangSapi = new mongoose.Schema({
-  NH3: Number,
-},
-{
-  timestamps: true,
-});
+const sekitarKandangSapi = new mongoose.Schema(
+  {
+    NH3: Number,
+  },
+  {
+    timestamps: true,
+  }
+);
 
 // Membuat model SensorNH3 berdasarkan schema yang telah didefinisikan
-const SekitarKandangSapi = mongoose.model("SekitarKandangSapi", sekitarKandangSapi);
+const SekitarKandangSapi = mongoose.model(
+  "SekitarKandangSapi",
+  sekitarKandangSapi
+);
 
 // Endpoint untuk menyimpan data sensor NH3 ke database
 app.post("/kirimSekitarKandangSapi", async (req, res) => {
@@ -105,10 +111,14 @@ app.post("/kirimSekitarKandangSapi", async (req, res) => {
     // Menyimpan data sensor NH3 ke MongoDB
     const result = await sekitarKandangSapi.save();
     console.log("Berhasil menyimpan data sekitar kandang sapi:", result);
-    res.status(200).json({ message: "Berhasil menyimpan data sekitar kandang sapi" });
-  } catch (err) { 
+    res
+      .status(200)
+      .json({ message: "Berhasil menyimpan data sekitar kandang sapi" });
+  } catch (err) {
     console.log("Gagal menyimpan data sekitar kandang sapi:", err);
-    res.status(500).json({ message: "Gagal menyimpan data sekitar kandang sapi" });
+    res
+      .status(500)
+      .json({ message: "Gagal menyimpan data sekitar kandang sapi" });
   }
 });
 
@@ -121,7 +131,9 @@ app.get("/ambilDataSekitarKandangSapi", async (req, res) => {
     res.status(200).json(data);
   } catch (err) {
     console.log("Gagal mengambil data sekitar kandang sapi:", err);
-    res.status(500).json({ message: "Gagal mengambil data sekitar kandang sapi" });
+    res
+      .status(500)
+      .json({ message: "Gagal mengambil data sekitar kandang sapi" });
   }
 });
 
@@ -181,6 +193,75 @@ app.get("/ambilDataDenganTanggalKandangSapi", async (req, res) => {
   }
 });
 
+// Auth
+
+const authSchema = mongoose.Schema(
+  {
+    username: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Auth = mongoose.model("users", authSchema);
+
+app.post("/register", async (req, res) => {
+  const newUser = new Auth({
+    username: req.body.username,
+    email: req.body.email,
+    password: req.body.password,
+  });
+
+  try {
+    const user = await newUser.save();
+    console.log(user);
+    res.send("User Register Sucesfuly");
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+app.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const user = await Auth.findOne({ username: username });
+
+    if (user) {
+      if (user.password === password) {
+        res.send(user);
+      } else {
+        return res.status(400).json({ message: "Wrong Password" });
+      }
+    } else {
+      return res.status(400).json({ message: "Email not found" });
+    }
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
+app.get("/getAllUsers", async (req, res) => {
+  try {
+    const users = await Auth.find();
+    res.send(users);
+  } catch (error) {
+    return res.status(400).json({ error });
+  }
+});
+
 // Default endpoint untuk menunjukkan bahwa server berjalan dengan baik
 app.get("/", async (req, res, next) => {
   return res.status(200).json({
@@ -190,7 +271,15 @@ app.get("/", async (req, res, next) => {
 });
 
 // Menjalankan server pada port 3000
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server berjalan di port ${port}`);
+// const port = 5000;
+// app.listen(port, () => {
+//   console.log(`Server berjalan di port ${port}`);
+// });
+
+
+app.use(cors());
+
+
+app.listen(3000, () => {
+  console.log("Server uinjek is running on port 3000");
 });
